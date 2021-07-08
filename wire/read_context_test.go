@@ -10,7 +10,7 @@ import (
 	"github.com/itchio/headway/united"
 	"github.com/itchio/savior/brotlisource"
 
-	"github.com/itchio/go-brotli/enc"
+	"github.com/andybalholm/brotli"
 	"github.com/itchio/savior/seeksource"
 
 	"github.com/itchio/wharf/wire"
@@ -58,9 +58,7 @@ func Test_ReadContext(t *testing.T) {
 	for _, quality := range qualities {
 		buf := new(bytes.Buffer)
 
-		bw := enc.NewBrotliWriter(buf, &enc.BrotliWriterOptions{
-			Quality: quality,
-		})
+		bw := brotli.NewWriterLevel(buf, int(quality))
 
 		w := wire.NewWriteContext(bw)
 		writeSampleMessages(t, w)
